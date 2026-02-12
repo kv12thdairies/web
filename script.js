@@ -79,6 +79,7 @@ const memoryNotes = {
     "February-7": "Fairwell",
     "February-7": "Fairwell",
     "February-9": "Birthday : Harshil",
+    "February-23": "Birthday : Jeet",
 
 
 };
