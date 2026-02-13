@@ -27,11 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
 const months = [
     { name: "March", days: 31 },
     { name: "April", days: 30 },
+    { name: "May", days: 31},
     { name: "June", days: 30 },
     { name: "July", days: 31 },
     { name: "August", days: 31 },
     { name: "September", days: 30 },
-    { name: "October", days: 31 },
     { name: "November", days: 30 },
     { name: "December", days: 31 },
     { name: "January", days: 31 },
@@ -51,6 +51,7 @@ const memoryNotes = {
     "July-28": "Birthday : Bharat",
     "August-3": "Party : Karan & Ayush",
     "August-8": "Birthday : Utkarsh",
+    "August-18": "Birthday : Sagar",
     "August-20": "Kala-Utsav",
     "August-21": "Birthday : Deepak",
     "August-28": "Interhouse Vollyball",
@@ -167,7 +168,7 @@ const classmates = [
     nick: "The Dynamic Achiver",
     photo: "assets/d1.jpeg",
     memory: "Jyada Se Jyada Kya Hi Kar Lenge.",
-    line: "-Bakait -Bakchod -Darudiya -Dogla -Sofia -Drako -Happy Birthday -Green House Captain",
+    line: "-Bakait -Bakchod -Sofia -Drako -Green House Captain",
     ins: "magan_gada_electronics_"
   },
   {
