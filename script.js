@@ -45,6 +45,7 @@ const memoryNotes = {
     "March-20": "Dam Party : Bhavyaraj",
     "April-18": "Party : Deepak",
     "May-18": "Birthday : Dhruv",
+    "June-20": "Birthday : Ayush",
     "June-24": "Birthday : Smit",
     "July-4": "Birthday : Karan",
     "July-28": "Birthday : Bharat",
