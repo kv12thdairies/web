@@ -304,22 +304,32 @@ const observer = new IntersectionObserver(entries => {
 });
 
 reveals.forEach(el => observer.observe(el));
-const scriptURL = "https://script.google.com/macros/s/AKfycbw-HbvwXRd4zTmDrm0bvBQxQCkjA5wdhIMp4h_msWGcJZXUbwLvosVYVGlRquKe-TFB/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwqA6flU8BAX6HPg7hl2OTvfyv9gIQMTwYfp20mQQXldJ-aszFEciMy9uwzW81iqkRY/exec";
 
 const commentInput = document.getElementById("commentInput");
 const commentName = document.getElementById("commentName");
 const addCommentBtn = document.getElementById("addCommentBtn");
 const commentsBoard = document.getElementById("commentsBoard");
 
-function renderCommentNote(name, text) {
+function renderCommentNote(name, text, time) {
+
+    const colors = ["yellow", "blue", "pink", "green"];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    const randomRotate = (Math.random() * 6 - 3).toFixed(2);
+
     const note = document.createElement("div");
-    note.className = "comment-note";
+    note.className = `comment-note ${randomColor}`;
+    note.style.transform = `rotate(${randomRotate}deg)`;
+
     note.innerHTML = `
         <strong>${name}</strong>
         <p>${text}</p>
+        <div class="meta">${time}</div>
     `;
+
     commentsBoard.appendChild(note);
 }
+
 
 function loadComments() {
     fetch(scriptURL)
@@ -330,9 +340,10 @@ function loadComments() {
             // Newest first
             const latestThree = data.reverse().slice(0, 3);
 
-            latestThree.forEach(item => {
-                renderCommentNote(item.name, item.comment);
-            });
+           latestThree.forEach(item => {
+    renderCommentNote(item.name, item.comment, item.timestamp);
+});
+
         });
 }
 
