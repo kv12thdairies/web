@@ -348,23 +348,29 @@ function loadComments() {
         });
 }
 
-
 addCommentBtn.addEventListener("click", () => {
     const name = commentName.value.trim();
     const text = commentInput.value.trim();
 
     if (!name || !text) return;
 
+    const now = new Date().toLocaleString();
+
+    // 🔥 1. Instantly render locally
+    renderCommentNote(name, text, now);
+
+    commentInput.value = "";
+    commentName.value = "";
+
+    // 🔥 2. Send to Google in background
     fetch(scriptURL, {
         method: "POST",
         body: JSON.stringify({ name, comment: text })
-    })
-    .then(res => res.json())
-    .then(() => {
-        commentInput.value = "";
-        commentName.value = "";
-        loadComments();
+    }).then(() => {
+        // optional: reload top 3 again after save
+        setTimeout(loadComments, 1500);
     });
 });
+
 
 loadComments();
