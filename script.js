@@ -305,7 +305,7 @@ const observer = new IntersectionObserver(entries => {
 });
 
 reveals.forEach(el => observer.observe(el));
-const scriptURL = "https://script.google.com/macros/s/AKfycbwqA6flU8BAX6HPg7hl2OTvfyv9gIQMTwYfp20mQQXldJ-aszFEciMy9uwzW81iqkRY/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwQcMw7i4y40hwa87ozBBfXDbvbUcwlJ2EmAF1WW7Mv3TuCPCV0wnN2w-Kof7gliQuoHw/exec";
 
 const commentInput = document.getElementById("commentInput");
 const commentName = document.getElementById("commentName");
