@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Batch Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:wght@300;400;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<main class="board">
+
+  <h1 class="title">All Notes From The Batch</h1>
+  <p class="subtitle">Every memory ever pinned</p>
+
+  <div class="comments-board" id="allCommentsBoard"></div>
+
+  <button class="view-all-btn" onclick="window.history.back()">
+      ← Back
+  </button>
+
+</main>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbwqA6flU8BAX6HPg7hl2OTvfyv9gIQMTwYfp20mQQXldJ-aszFEciMy9uwzW81iqkRY/exec";
+const board = document.getElementById("allCommentsBoard");
+
+function renderNote(name, text, time) {
+
+  const colors = ["yellow", "blue", "pink", "green"];
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  const randomRotate = (Math.random() * 6 - 3).toFixed(2);
+
+  const note = document.createElement("div");
+  note.className = `comment-note ${randomColor}`;
+  note.style.transform = `rotate(${randomRotate}deg)`;
+
+  note.innerHTML = `
+      <strong>${name}</strong>
+      <p>${text}</p>
+      <div class="meta">${time}</div>
+  `;
+
+  board.appendChild(note);
+}
+
+
+fetch(scriptURL)
+  .then(res => res.json())
+  .then(data => {
+      data.reverse().forEach(item => {
+    renderNote(item.name, item.comment, item.timestamp);
+});
+
+  });
+</script>
+
+</body>
+</html>
