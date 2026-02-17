@@ -160,7 +160,7 @@ const classmates = [
     name: "Utkarsh Limbad",
     nick: "The Responsible Leader",
     photo: "assets/utkarsh1.jpeg",
-    memory: "Bluetooth har kisi se connect ho jata hai.",
+    memory: "",
     line: "-Utk -Reader Club Secretary -Cutter Don -CCA Captain",
     ins: "_utkarshsinghlimbad_"
   },
