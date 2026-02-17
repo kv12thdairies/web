@@ -80,6 +80,7 @@ const memoryNotes = {
     "February-7": "Fairwell",
     "February-7": "Fairwell",
     "February-9": "Birthday : Harshil",
+    "February-14": "Party : Harshil & Admit Card",
     "February-23": "Birthday : Jeet",
 
 
@@ -159,7 +160,7 @@ const classmates = [
     name: "Utkarsh Limbad",
     nick: "The Responsible Leader",
     photo: "assets/utkarsh1.jpeg",
-    memory: "",
+    memory: "Bluetooth har kisi se connect ho jata hai.",
     line: "-Utk -Reader Club Secretary -Cutter Don -CCA Captain",
     ins: "_utkarshsinghlimbad_"
   },
@@ -169,7 +170,7 @@ const classmates = [
     photo: "assets/d1.jpeg",
     memory: "Jyada Se Jyada Kya Hi Kar Lenge.",
     line: "-Bakait -Bakchod -Sofia -Drako -Green House Captain",
-    ins: "magan_gada_electronics_"
+    ins: "Non Insta User"
   },
   {
     name: "Dhruv",
