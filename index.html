@@ -317,24 +317,48 @@
             </div>
 
         </div>
-        <section class="comments-section">
+ <section class="comments-section">
 
-    <h2 class="comments-title">Leave a Note for the Batch</h2>
-    <p class="comments-subtitle">write something we’ll read years later</p>
-
- <div class="comment-form-paper">
-    <input type="text" id="commentName" placeholder="Your Name" />
-    <textarea id="commentInput" placeholder="Write your memory..."></textarea>
-    <button id="addCommentBtn">📌 Pin It</button>
+ <div class="comment-section-header">
+  <h2>Leave a Message for the Batch</h2>
+  <p>something we’ll smile at years later</p>
 </div>
 
 
-    <div class="comments-board" id="commentsBoard"></div>
-    <button class="view-all-btn" onclick="window.location.href='index2.html'">
-    View All Notes →
-    </button>
+ <div class="comment-form-paper">
+
+  <div class="form-header">
+    <span class="pin-icon">📌</span>
+    <span class="form-title">Pin a Memory</span>
+  </div>
+
+  <div class="form-field">
+    <label>Your Name</label>
+    <input type="text" id="commentName" placeholder="Who are you?" />
+  </div>
+
+  <div class="form-field">
+    <label>Your Message</label>
+    <textarea id="commentInput" placeholder="Write something for the batch..."></textarea>
+  </div>
+
+  <button id="addCommentBtn" class="pin-btn">Pin It</button>
+
+  <div class="post-feedback" id="postFeedback">Pinned ✨</div>
+
+
+</div>
+
+
+  <div class="comments-wall" id="commentsBoard"></div>
+
+  <button class="view-all-btn" onclick="window.location.href='index2.html'">
+    View All Messages →
+  </button>
 
 </section>
+
+
 
 
         <footer class="site-footer">
