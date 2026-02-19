@@ -78,7 +78,6 @@ const memoryNotes = {
     "February-2": "CS Practical",
     "February-5": "Chemistry Practical & Scribble Day",
     "February-7": "Fairwell",
-    "February-7": "Fairwell",
     "February-9": "Birthday : Harshil",
     "February-14": "Party : Harshil & Admit Card",
     "February-23": "Birthday : Jeet",
@@ -267,7 +266,7 @@ function openPerson(index) {
     `url(${data.photo})`;
 
   panel.classList.add("open");
-  document.body.classList.add("panel-open");
+  
 }
 
 
@@ -315,22 +314,25 @@ const commentsBoard = document.getElementById("commentsBoard");
 
 function renderCommentNote(name, text, time) {
 
-    const colors = ["yellow", "blue", "pink", "green"];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    const randomRotate = (Math.random() * 6 - 3).toFixed(2);
+  const colors = ["yellow", "blue", "pink", "green"];
+  const note = document.createElement("div");
 
-    const note = document.createElement("div");
-    note.className = `comment-note ${randomColor}`;
-    note.style.transform = `rotate(${randomRotate}deg)`;
+  note.className = `comment-note ${colors[Math.floor(Math.random() * 4)]}`;
 
-    note.innerHTML = `
-        <strong>${name}</strong>
-        <p>${text}</p>
-        <div class="meta">${time}</div>
-    `;
+  const strong = document.createElement("strong");
+  strong.textContent = name;
 
-    commentsBoard.appendChild(note);
+  const p = document.createElement("p");
+  p.textContent = text;
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.textContent = time;
+
+  note.append(strong, p, meta);
+  commentsBoard.prepend(note);
 }
+
 
 
 function loadComments() {
@@ -349,29 +351,51 @@ function loadComments() {
         });
 }
 
+const postFeedback = document.getElementById("postFeedback");
+
 addCommentBtn.addEventListener("click", () => {
-    const name = commentName.value.trim();
-    const text = commentInput.value.trim();
+  const name = commentName.value.trim();
+  const text = commentInput.value.trim();
 
-    if (!name || !text) return;
+  if (!name || !text) return;
 
-    const now = new Date().toLocaleString();
+  // 🔥 NEW: tear animation
+  const form = document.querySelector(".comment-form-paper");
+  form.classList.add("tear");
 
-    // 🔥 1. Instantly render locally
-    renderCommentNote(name, text, now);
+  setTimeout(() => {
+    form.classList.remove("tear");
+    form.style.opacity = "1";
+    form.style.transform = "rotate(-1deg)";
+  }, 500);
 
-    commentInput.value = "";
-    commentName.value = "";
+  const now = new Date().toLocaleString();
 
-    // 🔥 2. Send to Google in background
-    fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify({ name, comment: text })
-    }).then(() => {
-        // optional: reload top 3 again after save
-        setTimeout(loadComments, 1500);
-    });
+  renderCommentNote(name, text, now);
+
+  commentName.value = "";
+  commentInput.value = "";
+
+  postFeedback.classList.add("show");
+  setTimeout(() => postFeedback.classList.remove("show"), 1300);
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify({ name, comment: text })
+  });
 });
+document.addEventListener("DOMContentLoaded", () => {
+
+  const postFeedback = document.getElementById("postFeedback");
+  const addCommentBtn = document.getElementById("addCommentBtn");
+
+  addCommentBtn.addEventListener("click", () => {
+    postFeedback.classList.add("show");
+    setTimeout(() => postFeedback.classList.remove("show"), 1300);
+  });
+
+});
+
 
 
 loadComments();
