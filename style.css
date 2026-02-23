@@ -1202,3 +1202,24 @@ body::before {
 .comment-form-paper.tear {
   animation: paperTear 0.45s ease forwards;
 }
+.poll-actions {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.view-all-polls-btn {
+  padding: 12px 28px;
+  background: transparent;
+  border: 2px dashed rgba(0,0,0,0.4);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.25s ease;
+}
+
+.view-all-polls-btn:hover {
+  opacity: 1;
+  background: rgba(0,0,0,0.05);
+  transform: translateY(-2px);
+}
