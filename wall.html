@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Wall</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<main class="board">
+
+  <h1 class="title">The Wall</h1>
+  <p class="subtitle">Vote. Rank. Remember.</p>
+
+  <!-- Question Section -->
+  <section class="wall-section">
+  <h2 class="wall-question">Who was the most helpful senior?</h2>
+  <div id="helpful"></div>
+</section>
+
+<section class="wall-section">
+  <h2 class="wall-question">Who was the funniest?</h2>
+  <div id="funny"></div>
+</section>
+
+<section class="wall-section">
+  <h2 class="wall-question">Best leader?</h2>
+  <div id="leader"></div>
+</section>
+
+<section class="wall-section">
+  <h2 class="wall-question">Best memory maker?</h2>
+  <div id="sport"></div>
+</section>
+
+<section class="wall-section">
+  <h2 class="wall-question">Most Chilled Person?</h2>
+  <div id="chill"></div>
+</section>
+
+  <div class="poll-actions">
+    <button class="view-all-polls-btn"
+      onclick="window.history.back()">
+      ← Back
+    </button>
+  </div>
+
+</main>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbzOyYWJb0cGRxvJOvckHzf7C7R4wk5ZgD78n7A88XNqqxOIiR74jqqM3sN4oxyBqqzIAg/exec";
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const questions = [
+    "helpful",
+    "funny",
+    "leader",
+    "sport",
+    "chill"
+  ];
+
+  questions.forEach(loadWall);
+});
+
+function loadWall(questionId) {
+  fetch(API + "?question=" + questionId)
+    .then(res => res.json())
+    .then(data => renderWall(data, questionId));
+}
+
+function renderWall(data, questionId) {
+
+  const container = document.getElementById(questionId);
+  container.innerHTML = "";
+
+  data.sort((a, b) => b.count - a.count);
+
+  const votedName = localStorage.getItem(questionId);
+
+  // 🔥 TOP 3 VIEW
+  const top3 = data.slice(0, 3);
+
+  top3.forEach((person, index) => {
+    const div = createCard(person, index + 1, false, questionId, votedName);
+    container.appendChild(div);
+  });
+
+  // If already voted → show message + remove button
+  if (votedName) {
+
+    const msg = document.createElement("div");
+    msg.className = "wall-voted-msg";
+    msg.textContent = "You voted for " + votedName + " ✅";
+    container.appendChild(msg);
+
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "wall-remove-btn";
+    removeBtn.textContent = "Remove Vote";
+    removeBtn.onclick = () => removeVote(questionId);
+    container.appendChild(removeBtn);
+
+  } else {
+
+    // If not voted → show vote button
+    const voteBtn = document.createElement("button");
+    voteBtn.className = "wall-vote-btn";
+    voteBtn.textContent = "Vote";
+    voteBtn.onclick = () => showAllCandidates(data, questionId);
+    container.appendChild(voteBtn);
+  }
+}
+
+function showAllCandidates(data, questionId) {
+
+  const container = document.getElementById(questionId);
+  container.innerHTML = "";
+
+  data.forEach((person, index) => {
+    const div = createCard(person, index + 1, true, questionId);
+    container.appendChild(div);
+  });
+}
+
+function createCard(person, rank, clickable, questionId, votedName) {
+
+  const div = document.createElement("div");
+  div.className = "wall-option";
+
+  if (person.name === votedName) {
+    div.classList.add("voted");
+  }
+
+  div.innerHTML = `
+    <div class="wall-rank">#${rank}</div>
+    <div class="wall-name">${person.name}</div>
+    <div class="wall-count">${person.count} votes</div>
+  `;
+
+  if (clickable) {
+    div.onclick = () => vote(questionId, person.name);
+  }
+
+  return div;
+}
+
+function vote(questionId, name) {
+
+  if (localStorage.getItem(questionId)) {
+    showToast("You already voted 😄");
+    return;
+  }
+
+  localStorage.setItem(questionId, name);
+
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({
+      question: questionId,
+      name: name,
+      action: "add"
+    })
+  }).then(() => {
+    showToast("Vote recorded ✅");
+    loadWall(questionId);
+  });
+}
+
+function removeVote(questionId) {
+
+  const name = localStorage.getItem(questionId);
+
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({
+      question: questionId,
+      name: name,
+      action: "remove"
+    })
+  }).then(() => {
+    localStorage.removeItem(questionId);
+    showToast("Vote removed ❌");
+    loadWall(questionId);
+  });
+}
+
+function showToast(message) {
+
+  const toast = document.createElement("div");
+  toast.className = "wall-toast";
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 10);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
+}
+</script>
+<style>
+    /* ================= WALL PAGE ================= */
+
+.wall-section {
+  margin: 5rem auto;
+  max-width: 700px;
+}
+
+.wall-question {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.wall-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: #fffdf6;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+
+  box-shadow: 0 18px 35px rgba(0,0,0,0.2);
+  transform: rotate(-1deg);
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.wall-option:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 28px 50px rgba(0,0,0,0.35);
+}
+
+.wall-rank {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  opacity: 0.6;
+}
+
+.wall-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.wall-count {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+/* ===== WALL VOTED HIGHLIGHT ===== */
+
+.wall-option.voted {
+  background: #ffef8a;
+  transform: rotate(0deg);
+  font-weight: 600;
+}
+
+/* ===== REMOVE BUTTON ===== */
+
+.remove-vote-btn {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 10px 20px;
+  border: 2px dashed rgba(0,0,0,0.4);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: 0.25s ease;
+}
+
+.remove-vote-btn:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+/* ===== TOAST NOTIFICATION ===== */
+
+.wall-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #111;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  z-index: 9999;
+}
+
+.wall-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.wall-vote-btn {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 10px 24px;
+  border: 2px dashed rgba(0,0,0,0.4);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: 0.25s ease;
+}
+
+.wall-vote-btn:hover {
+  background: rgba(0,0,0,0.05);
+}
+.wall-option.voted {
+  background: #ffef8a;
+  font-weight: 600;
+}
+
+.wall-vote-btn,
+.wall-remove-btn {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 10px 24px;
+  border: 2px dashed rgba(0,0,0,0.4);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: 0.25s ease;
+}
+
+.wall-vote-btn:hover,
+.wall-remove-btn:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.wall-voted-msg {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.wall-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #111;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 8px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  z-index: 9999;
+}
+
+.wall-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+
+</body>
+</html>
