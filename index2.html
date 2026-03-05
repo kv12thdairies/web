@@ -27,9 +27,9 @@
 </main>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbwQcMw7i4y40hwa87ozBBfXDbvbUcwlJ2EmAF1WW7Mv3TuCPCV0wnN2w-Kof7gliQuoHw/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbw_1xXZmIN5Q61JU1r35BlB1Swoli21GIfxipbLkh8IqbOjHAwjKZZR4b9p51RY5X16nQ/exec";
 const board = document.getElementById("allCommentsBoard");
-
+const gratitudeList = ["Utkarsh"];
 function renderNote(name, text, time) {
 
   const colors = ["yellow", "blue", "pink", "green"];
@@ -45,6 +45,13 @@ function renderNote(name, text, time) {
       <p>${text}</p>
       <div class="meta">${time}</div>
   `;
+    // ⭐ GRATITUDE STAR
+  if (gratitudeList.includes(name)) {
+    const star = document.createElement("div");
+    star.className = "gratitude-star";
+    note.appendChild(star);
+  }
+
 
   board.appendChild(note);
 }
