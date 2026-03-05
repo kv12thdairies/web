@@ -305,13 +305,13 @@ const observer = new IntersectionObserver(entries => {
 });
 
 reveals.forEach(el => observer.observe(el));
-const scriptURL = "https://script.google.com/macros/s/AKfycbwQcMw7i4y40hwa87ozBBfXDbvbUcwlJ2EmAF1WW7Mv3TuCPCV0wnN2w-Kof7gliQuoHw/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbw_1xXZmIN5Q61JU1r35BlB1Swoli21GIfxipbLkh8IqbOjHAwjKZZR4b9p51RY5X16nQ/exec";
 
 const commentInput = document.getElementById("commentInput");
 const commentName = document.getElementById("commentName");
 const addCommentBtn = document.getElementById("addCommentBtn");
 const commentsBoard = document.getElementById("commentsBoard");
-
+const gratitudeList = ["Utkarsh"];
 function renderCommentNote(name, text, time) {
 
   const colors = ["yellow", "blue", "pink", "green"];
@@ -330,6 +330,14 @@ function renderCommentNote(name, text, time) {
   meta.textContent = time;
 
   note.append(strong, p, meta);
+
+  // ⭐ GRATITUDE STAR
+  if (gratitudeList.includes(name)) {
+    const star = document.createElement("div");
+    star.className = "gratitude-star";
+    note.appendChild(star);
+  }
+
   commentsBoard.prepend(note);
 }
 
