@@ -1243,7 +1243,7 @@ right:-18px;
 width:60px;
 height:60px;
 
-background-image:url("assets/1.jpg"); /* your group photo */
+background-image:url("assets/02.jpg"); /* your group photo */
 background-size:cover;
 background-position:center;
 
@@ -1264,3 +1264,4 @@ animation: starFloat 3s ease-in-out infinite;
 50%{transform:rotate(5deg);}
 100%{transform:rotate(-5deg);}
 }
+
