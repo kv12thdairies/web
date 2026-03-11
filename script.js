@@ -311,7 +311,7 @@ const commentInput = document.getElementById("commentInput");
 const commentName = document.getElementById("commentName");
 const addCommentBtn = document.getElementById("addCommentBtn");
 const commentsBoard = document.getElementById("commentsBoard");
-const gratitudeList = ["Subhraj singh","Dhruv"];
+const gratitudeList = [];
 function renderCommentNote(name, text, time) {
 
   const colors = ["yellow", "blue", "pink", "green"];
